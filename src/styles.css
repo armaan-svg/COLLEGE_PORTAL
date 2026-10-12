@@ -68,3 +68,11 @@
   .countdown-timer { gap: 10px; }
   .profile-menu { right: 0; min-width: 160px; }
 }
+
+/* Mobile / touch: avoid fixed-background repaints and long-lived GPU layers in the hero */
+@media (max-width: 768px), (pointer: coarse) {
+  .hero { background-attachment: scroll; }
+  .hero-video { will-change: auto; }
+  /* Static poster replaces the video; opacity matches the old effective video visibility */
+  .hero-image.hero-image-static { opacity: .05; }
+}
