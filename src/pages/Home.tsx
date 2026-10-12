@@ -30,11 +30,22 @@ const scrollGallery = gallery.slice(0, 5);
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const motionEnabled = !reduceMotion;
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 768px), (pointer: coarse)').matches,
+  );
   const fullText = 'CHALLENGE 2026';
   const [typedText, setTypedText] = useState('');
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const activeGalleryIndexRef = useRef(0);
   const gallerySteps = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 768px), (pointer: coarse)');
+    const update = () => setIsMobile(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
 
   useEffect(() => {
     if (typedText.length < fullText.length) {
@@ -97,18 +108,29 @@ export default function Home() {
     <div className={`home-page ${motionEnabled ? 'motion-enabled' : 'motion-paused'}`}>
       {/* Hero Section */}
       <section className="hero">
-        <div className="hero-image">
-          <video
-            autoPlay={motionEnabled}
-            muted
-            loop
-            playsInline
-            className="hero-video"
-            src="/video/hero.mp4"
-            poster="/img/hero-space.webp"
-            preload="metadata"
+        {isMobile ? (
+          <div
+            className="hero-image hero-image-static"
+            style={{
+              backgroundImage: 'url(/img/hero-space.webp)',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
           />
-        </div>
+        ) : (
+          <div className="hero-image">
+            <video
+              autoPlay={motionEnabled}
+              muted
+              loop
+              playsInline
+              className="hero-video"
+              src="/video/hero.mp4"
+              poster="/img/hero-space.webp"
+              preload="metadata"
+            />
+          </div>
+        )}
         <div className="hero-shade" />
         <div className="starfield" />
         <div className="hero-content">
