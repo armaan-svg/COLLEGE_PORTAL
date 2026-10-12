@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ArrowRight, Check, RotateCcw, X } from 'lucide-react';
 import { questions } from '../data/quiz';
-import { PageIntro, SpaceArt } from '../components/UI';
+import { PageIntro } from '../components/UI';
 
 export default function Quiz() {
   const [started, setStarted] = useState(false);
@@ -37,7 +37,6 @@ export default function Quiz() {
 
       {!started ? (
         <div className="quiz-start panel">
-          <SpaceArt kind="blackhole" />
           <h2>Ready to test your cosmic IQ?</h2>
           <p>
             No sign-in needed. Choose one answer per question, check it, and

@@ -15,7 +15,6 @@ const pageBackgrounds: Record<string, SectionBackgroundName> = {
   '/faq': 'schedule',
   '/certification': 'mission',
   '/contact': 'experience',
-  '/media': 'schedule',
   '/why-participate': 'categories',
   '/school': 'mission',
   '/college': 'experience',
@@ -53,7 +52,7 @@ export default function Layout() {
           <img className="brand-logo" src="/img/event-mark.png" alt="" width="52" height="52" />
           <span>
             OrbitalHack
-            <small>BHIMTAL · 2026</small>
+            <small>BIAS · BHIMTAL</small>
           </span>
         </Link>
         <button
@@ -150,7 +149,6 @@ export default function Layout() {
           <div className="footer-links">
             <Link to="/certification">Certification</Link>
             <Link to="/contact">Contact & venue</Link>
-            <Link to="/media">Videos & media</Link>
             <Link to="/admin/login">Organizer access</Link>
           </div>
         </div>

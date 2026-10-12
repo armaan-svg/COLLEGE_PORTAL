@@ -17,11 +17,8 @@ import {
   CalendarDays,
   ArrowUpRight,
 } from 'lucide-react';
-import { ButtonLink, Notice, PageIntro, SpaceArt } from '../components/UI';
-import { directionsUrl, officialUrl, schedule } from '../data/event';
-import { approvedVideos, launchMedia } from '../data/media';
-import MediaPlayer from '../components/MediaPlayer';
-import { OptimizedImage } from '../components/UI';
+import { ButtonLink, Notice, PageIntro } from '../components/UI';
+import { directionsUrl, officialUrl, schedule, venueMapEmbedUrl } from '../data/event';
 
 export function About() {
   return (
@@ -32,7 +29,7 @@ export function About() {
       >
         NASA International Space Apps Challenge 2026
       </PageIntro>
-      <div className="split-content">
+      <div className="split-content split-content-single">
         <div>
           <h2>
             A global challenge.
@@ -41,7 +38,6 @@ export function About() {
           </h2>
           <EventOverview />
         </div>
-        <SpaceArt />
       </div>
     </div>
   );
@@ -172,7 +168,7 @@ export function Venue() {
           title="Birla Institute of Applied Sciences, Bhimtal map"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3477.4607286853357!2d79.55042308813083!3d29.356796190712274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39a09818f8b9c99f%3A0xfe9870c9d2a28be7!2sBirla%20Institute%20Of%20Applied%20Sciences!5e0!3m2!1sen!2sin!4v1583690649149!5m2!1sen!2sin"
+          src={venueMapEmbedUrl}
         />
       </div>
     </div>
@@ -245,7 +241,7 @@ export function Category({ category }: { category: 'school' | 'college' }) {
           ? 'A universe of questions. A generation of possibilities.'
           : 'Technical curiosity meets real-world problem-solving.'}
       </PageIntro>
-      <div className="split-content">
+      <div className="split-content split-content-single">
         <div>
           <h2>Think. Solve. Innovate.</h2>
           <p>
@@ -272,7 +268,6 @@ export function Category({ category }: { category: 'school' | 'college' }) {
             Register in this category
           </ButtonLink>
         </div>
-        <SpaceArt kind={school ? 'planet' : 'nebula'} />
       </div>
     </div>
   );
@@ -361,76 +356,6 @@ export function Contact() {
           Venue & map
         </ButtonLink>
       </div>
-    </div>
-  );
-}
-
-export function Media() {
-  return (
-    <div className="page">
-      <PageIntro
-        eyebrow="A WINDOW INTO SPACE"
-        title="Beyond our atmosphere."
-      >
-        External illustrative space media is separate from genuine local event
-        footage.
-      </PageIntro>
-
-      <figure className="launch-visual">
-        <OptimizedImage
-          src={launchMedia.src}
-          alt="A SpaceX Falcon 9 rocket launching the Crew-9 Dragon spacecraft on 28 September 2024"
-        />
-        <figcaption>
-          <div>
-            <span className="eyebrow">ILLUSTRATIVE EXTERNAL MEDIA</span>
-            <h2>{launchMedia.title}</h2>
-            <p>{launchMedia.caption}</p>
-          </div>
-          <div>
-            <span>{launchMedia.credit}</span>
-            <a href={launchMedia.source} target="_blank" rel="noreferrer">
-              View NASA source <ArrowUpRight size={15} />
-            </a>
-          </div>
-        </figcaption>
-      </figure>
-
-      <div className="media-grid">
-        <div className="panel">
-          <SpaceArt kind="nebula" />
-          <h2>Black Nova / Nebula</h2>
-          <p>
-            An original, lightweight animated visualization of cosmic dust.
-            Decorative artwork, not event footage.
-          </p>
-        </div>
-        <div className="panel">
-          <h2>Rocket launches</h2>
-          <p>
-            Watch authentic launch media on SpaceX's own official website. This
-            illustrative section does not imply a partnership or NASA
-            endorsement.
-          </p>
-          <ButtonLink external to="https://www.spacex.com/launches/">
-            Official SpaceX launch media
-          </ButtonLink>
-        </div>
-      </div>
-
-      {approvedVideos.length > 0 ? (
-        <div className="media-grid">
-          {approvedVideos.map((video) => (
-            <MediaPlayer key={video.source} video={video} />
-          ))}
-        </div>
-      ) : (
-        <Notice>
-          No verified local event videos have been supplied. Pinterest
-          references were inspected, but their publication rights have not been
-          established; they are not used as production media.
-        </Notice>
-      )}
     </div>
   );
 }

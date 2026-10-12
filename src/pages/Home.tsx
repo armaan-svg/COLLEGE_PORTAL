@@ -22,7 +22,7 @@ import {
   Network,
 } from 'lucide-react';
 import { ButtonLink, SectionHeading } from '../components/UI';
-import { gallery, officialUrl, schedule } from '../data/event';
+import { gallery, officialUrl, schedule, venueMapEmbedUrl } from '../data/event';
 import { questions } from '../data/quiz';
 
 const scrollGallery = gallery.slice(0, 5);
@@ -249,6 +249,13 @@ export default function Home() {
           <strong>BHIMTAL</strong>
           <span>14–16 NOVEMBER 2026</span>
           <span>Birla Institute of Applied Sciences</span>
+          <iframe
+            className="event-coordinate-map"
+            title="Mini map locating Birla Institute of Applied Sciences, Bhimtal"
+            src={venueMapEmbedUrl}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>
       </section>
 
