@@ -142,9 +142,14 @@ export default function Layout() {
           <div>
             <h3>NASA International Space Apps Challenge 2026</h3>
             <p>14–16 November 2026</p>
-            <p>
+            <a
+              className="footer-location"
+              href="https://www.google.com/maps/place/Birla+Institute+of+Applied+Sciences/@29.357228,79.552045,15z/data=!4m6!3m5!1s0x39a099dbdc0befa7:0xa08407c1dac1f3ac!8m2!3d29.3572275!4d79.5520452!16s%2Fm%2F02rs3p4?hl=en&entry=ttu&g_ep=EgoyMDI2MTAwNy4wIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noreferrer"
+            >
               <MapPin size={14} /> Birla Institute of Applied Sciences, Bhimtal, Uttarakhand
-            </p>
+            </a>
           </div>
           <div className="footer-links">
             <Link to="/certification">Certification</Link>

@@ -456,7 +456,12 @@ export default function Home() {
       {/* Organizer Section */}
       <section className="organizer-section section immersive-section">
         <div className="organizer-orbit">
-          <Globe2 size={80} strokeWidth={0.7} />
+          <img
+            className="organizer-logo"
+            src="/img/my-logo.png.png"
+            alt="Birla Institute of Applied Sciences logo"
+            loading="lazy"
+          />
         </div>
         <div>
           <span className="eyebrow">
