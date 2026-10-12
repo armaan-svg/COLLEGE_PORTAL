@@ -30,11 +30,21 @@ const scrollGallery = gallery.slice(0, 5);
 export default function Home() {
   const reduceMotion = useReducedMotion();
   const motionEnabled = !reduceMotion;
+  const [mobileViewport, setMobileViewport] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(max-width: 800px)').matches
+  );
   const fullText = 'CHALLENGE 2026';
   const [typedText, setTypedText] = useState('');
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
   const activeGalleryIndexRef = useRef(0);
   const gallerySteps = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia('(max-width: 800px)');
+    const updateViewport = () => setMobileViewport(mobileQuery.matches);
+    mobileQuery.addEventListener('change', updateViewport);
+    return () => mobileQuery.removeEventListener('change', updateViewport);
+  }, []);
 
   useEffect(() => {
     if (typedText.length < fullText.length) {
@@ -46,51 +56,34 @@ export default function Home() {
   }, [typedText]);
 
   useEffect(() => {
-    let animationFrame = 0;
+    const visibleSteps = new Map<HTMLElement, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!(entry.target instanceof HTMLElement)) return;
+          if (entry.isIntersecting) visibleSteps.set(entry.target, entry.intersectionRatio);
+          else visibleSteps.delete(entry.target);
+        });
 
-    const updateActiveStep = () => {
-      animationFrame = 0;
-      const steps = gallerySteps.current
-        .map((step, index) => ({ step, index }))
-        .filter((entry): entry is { step: HTMLElement; index: number } => entry.step !== null);
+        const mostVisible = Array.from(visibleSteps.entries()).reduce<
+          [HTMLElement, number] | undefined
+        >((current, entry) => (!current || entry[1] > current[1] ? entry : current), undefined);
+        if (!mostVisible) return;
 
-      if (steps.length === 0) return;
+        const index = gallerySteps.current.indexOf(mostVisible[0]);
+        if (index !== -1 && index !== activeGalleryIndexRef.current) {
+          activeGalleryIndexRef.current = index;
+          setActiveGalleryIndex(index);
+        }
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] }
+    );
 
-      const viewportCenter = window.innerHeight / 2;
-      const distanceTo = (step: HTMLElement) =>
-        Math.abs(step.getBoundingClientRect().top + step.getBoundingClientRect().height / 2 - viewportCenter);
-      const nearest = steps.reduce((closest, entry) =>
-        distanceTo(entry.step) < distanceTo(closest.step) ? entry : closest
-      );
-      const activeStep = steps.find((entry) => entry.index === activeGalleryIndexRef.current);
+    gallerySteps.current.forEach((step) => {
+      if (step) observer.observe(step);
+    });
 
-      if (
-        activeStep &&
-        nearest.index !== activeStep.index &&
-        distanceTo(activeStep.step) - distanceTo(nearest.step) < 64
-      ) {
-        return;
-      }
-
-      if (nearest.index !== activeGalleryIndexRef.current) {
-        activeGalleryIndexRef.current = nearest.index;
-        setActiveGalleryIndex(nearest.index);
-      }
-    };
-
-    const scheduleUpdate = () => {
-      if (!animationFrame) animationFrame = window.requestAnimationFrame(updateActiveStep);
-    };
-
-    scheduleUpdate();
-    window.addEventListener('scroll', scheduleUpdate, { passive: true });
-    window.addEventListener('resize', scheduleUpdate);
-
-    return () => {
-      window.removeEventListener('scroll', scheduleUpdate);
-      window.removeEventListener('resize', scheduleUpdate);
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
-    };
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -98,16 +91,25 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-image">
-          <video
-            autoPlay={motionEnabled}
-            muted
-            loop
-            playsInline
-            className="hero-video"
-            src="/video/hero.mp4"
-            poster="/img/hero-space.webp"
-            preload="metadata"
-          />
+          {motionEnabled && !mobileViewport ? (
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="hero-video"
+              src="/video/hero.mp4"
+              poster="/img/hero-space.webp"
+              preload="metadata"
+            />
+          ) : (
+            <img
+              src="/img/hero-space.webp"
+              alt=""
+              fetchPriority="high"
+              loading="eager"
+            />
+          )}
         </div>
         <div className="hero-shade" />
         <div className="starfield" />
@@ -151,6 +153,9 @@ export default function Home() {
                 </ButtonLink>
                 <ButtonLink secondary to="/register">
                   Register your team
+                </ButtonLink>
+                <ButtonLink secondary external to="https://www.spaceappschallenge.org/2026/challenges/">
+                  PROBLEM STATEMENTS
                 </ButtonLink>
               </div>
               <a
@@ -409,22 +414,16 @@ export default function Home() {
         </div>
         <div className="gallery-story">
           <figure className="gallery-story-stage" aria-live="polite">
-            {scrollGallery.map((image, index) => (
-              <motion.img
-                key={image.src}
-                className="gallery-story-image"
-                src={image.src}
-                alt={index === activeGalleryIndex ? image.caption : ''}
-                aria-hidden={index !== activeGalleryIndex}
-                loading="eager"
-                initial={false}
-                animate={{
-                  opacity: index === activeGalleryIndex ? 1 : 0,
-                  scale: index === activeGalleryIndex ? 1 : 1.015,
-                }}
-                transition={{ duration: reduceMotion ? 0 : 0.45, ease: 'easeInOut' }}
-              />
-            ))}
+            <motion.img
+              key={scrollGallery[activeGalleryIndex].src}
+              className="gallery-story-image"
+              src={scrollGallery[activeGalleryIndex].src}
+              alt={scrollGallery[activeGalleryIndex].caption}
+              loading="lazy"
+              initial={reduceMotion ? false : { opacity: 0, scale: 1.015 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: reduceMotion ? 0 : 0.45, ease: 'easeInOut' }}
+            />
           </figure>
           <div className="gallery-story-steps">
             {scrollGallery.map((image, index) => (

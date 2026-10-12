@@ -165,7 +165,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 }
 
 .hero-description {
-  max-width: 660px;
+  max-width: 900px;
   margin-top: 12px;
 }
 
@@ -558,9 +558,18 @@ body{background-color:#08090B;background-image:linear-gradient(rgba(8,9,11,.4),r
 .home-page .hero h1{animation:title-glow 5s ease-in-out infinite}
 #root :is(.panel,.feature-card,.day-card,.category-card,.flight-plan-card,.perspective-card,.quiz-brief,.event-coordinate,.gallery-image){transition:transform .28s ease,box-shadow .28s ease,border-color .28s ease}
 #root :is(.panel,.feature-card,.day-card,.category-card,.flight-plan-card,.perspective-card,.quiz-brief,.event-coordinate,.gallery-image):hover{box-shadow:0 16px 38px rgba(0,0,0,.28),0 0 20px rgba(229,185,56,.09)}
-.perspective-card:hover,.perspective-card:focus-visible{animation:tile-interaction-float 1.6s ease-in-out infinite}
 .countdown-unit{transition:box-shadow .28s ease,border-color .28s ease}
-.countdown-unit:hover,.countdown-unit:focus-within{animation:tile-interaction-float 1.6s ease-in-out infinite;box-shadow:0 16px 38px rgba(0,0,0,.28),0 0 20px rgba(229,185,56,.14)}
+@media(hover:hover) and (pointer:fine){
+  .perspective-card:hover,.perspective-card:focus-visible{animation:tile-interaction-float 1.6s ease-in-out infinite}
+  .countdown-unit:hover,.countdown-unit:focus-within{animation:tile-interaction-float 1.6s ease-in-out infinite;box-shadow:0 16px 38px rgba(0,0,0,.28),0 0 20px rgba(229,185,56,.14)}
+}
+@media(max-width:800px){
+  body{background-image:none;background-attachment:scroll}
+  .route-surface{background-color:#0a0805;background-image:none;background-attachment:scroll}
+  .immersive-section .feature-card,.immersive-section .day-card,.immersive-section .category-card{backdrop-filter:none}
+  .gallery-story-image,.gallery-image img{filter:none}
+  .home-page .starfield,.home-page .live-dot,.home-page .hero h1{animation:none}
+}
 @supports (animation-timeline:view()){
   .home-page .gallery-story-stage{animation:tile-arrive linear both;animation-timeline:view();animation-range:entry 0% entry 35%}
 }
