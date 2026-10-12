@@ -56,6 +56,8 @@
 .gallery-story-step .micro-label{color:#F5D76E}
 .gallery-story-step h3{max-width:500px;margin:20px 0 0;color:#f3ede2;font-size:clamp(28px,3.5vw,50px);font-weight:500;line-height:1.12;letter-spacing:-.035em}
 .home-gallery .fine-print{max-width:760px;margin:22px 0 0;color:#cfc6b2;line-height:1.8}
+@media(max-width:800px){.home-gallery-heading{align-items:flex-start;flex-direction:column;margin-bottom:28px}.home-gallery-heading .section-heading{max-width:100%}.gallery-story{grid-template-columns:1fr;gap:18px}.gallery-story-stage{position:relative;top:auto;height:42svh;min-height:260px}.gallery-story-steps{display:grid;gap:14px}.gallery-story-step{min-height:auto;padding:18px 0;border-top:1px solid rgba(229,185,56,.16);border-bottom:0;opacity:1}.gallery-story-step:first-child{border-top:1px solid rgba(229,185,56,.16)}.gallery-story-step h3{margin-top:10px;font-size:clamp(22px,5vw,32px);line-height:1.18;max-width:none}}
+@media(max-width:540px){.home-gallery-heading{margin-bottom:24px}.home-gallery-heading .section-heading h2{font-size:clamp(40px,10vw,58px)}.gallery-story{gap:14px}.gallery-story-stage{height:38svh;min-height:220px;border-radius:12px}.gallery-story-step{padding:16px 0}.gallery-story-step .micro-label{font-size:10px}.gallery-story-step h3{font-size:clamp(18px,7vw,28px)}}
 .home-page .organizer-section.immersive-section,.home-page .final-cta.immersive-section{background:rgba(10,8,5,.76)}
 .home-page .final-cta.immersive-section>.section-background{display:block}
 .home-page .perspective-section{padding:clamp(44px,5vw,68px) max(24px,calc((100vw - 1248px)/2));background:rgba(11,16,27,.78);border-block:1px solid #222b38}
