@@ -1,0 +1,1 @@
+ALTER TABLE "event_config" ALTER COLUMN "registration_open" SET DEFAULT 0;
